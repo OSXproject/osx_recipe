@@ -1,0 +1,167 @@
+$engine: 3
+$onesync: on
+name: OSX Legacy
+version: 1.0.0
+author: OSX Framework
+description: The official recipe of the most popular FiveM RP framework, containing Jobs, Housing, Vehicles & more!
+
+tasks:
+  # Download default CFX resources
+  - action: download_github
+    src: https://github.com/citizenfx/cfx-server-data
+    ref: master
+    subpath: resources
+    dest: ./resources/[cfx-default]
+  
+  # Download and prepare server.cfg / loadingscreen / database
+  - action: download_github
+    src: https://github.com/Zan1456/osx_core_recipe
+    ref: Stable
+    dest: ./tmp/recipe
+
+  - action: move_path
+    src: ./tmp/recipe/server.cfg
+    dest: ./server.cfg
+
+  - action: move_path
+    src: ./tmp/recipe/osxLogo.png
+    dest: ./osxLogo.png
+
+  # Download basic resources and ESX dependencies
+
+  - action: connect_database
+
+  - action: download_github
+    src: https://github.com/Bob74/bob74_ipl
+    ref: master
+    dest: ./resources/[standalone]/bob74_ipl
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx-core
+    ref: main
+    dest: ./tmp/core
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_addonaccount
+    ref: main
+    dest: ./tmp/addons/esx_addonaccount
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_addoninventory
+    ref: main
+    dest: ./tmp/addons/esx_addoninventory
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_datastore
+    ref: main
+    dest: ./tmp/addons/esx_datastore
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_service
+    ref: main
+    dest: ./tmp/addons/esx_service
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_basicneeds
+    ref: main
+    dest: ./tmp/addons/esx_basicneeds
+s
+  - action: download_file
+    path: ./tmp/files/esx_hud.zip
+    url: https://github.com/esx-framework/esx_hud/releases/latest/download/esx_hud.zip
+  - action: unzip
+    dest: ./tmp/addons
+    src: ./tmp/files/esx_hud.zip
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_optionalneeds
+    ref: main
+    dest: ./tmp/addons/esx_optionalneeds
+
+  - action: waste_time # prevent github throttling
+    seconds: 5
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_property
+    ref: main
+    dest: ./tmp/addons/esx_property
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_dmvschool
+    ref: devsidibtuseit
+    dest: ./tmp/addons/esx_dmvschool
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_taxijob
+    ref: main
+    dest: ./tmp/addons/esx_taxijob
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_billing
+    ref: main
+    dest: ./tmp/addons/esx_billing
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_drugs
+    ref: main
+    dest: ./tmp/addons/esx_drugs
+
+  - action: download_github
+    src: https://github.com/LukeWasTakenn/luke_garages
+    ref: master
+    dest: ./tmp/addons/osx_garage
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_vehicleshop
+    ref: main
+    dest: ./tmp/addons/esx_vehicleshop
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_society
+    ref: main
+    dest: ./tmp/addons/esx_society
+
+  - action: waste_time # prevent github throttling
+    seconds: 5
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_license
+    ref: main
+    dest: ./tmp/addons/esx_license
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_jobs
+    ref: main
+    dest: ./tmp/addons/esx_jobs
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_status
+    ref: main
+    dest: ./tmp/addons/esx_status
+
+  - action: move_path
+    src: ./tmp/core/[core]
+    dest: ./resources/[core]
+
+  - action: move_path
+    src: ./tmp/addons/
+    dest: ./resources/[osx_addons]
+
+  - action: download_github
+    src: https://github.com/AvarianKnight/pma-voice
+    ref: main
+    dest: ./resources/[standalone]/pma-voice
+
+  - action: query_database
+    file: ./tmp/core/[SQL]/legacy.sql
+
+  - action: download_file
+    path: ./tmp/files/oxmysql.zip
+    url: https://github.com/overextended/oxmysql/releases/latest/download/oxmysql.zip
+  - action: unzip
+    dest: ./resources/[standalone]
+    src: ./tmp/files/oxmysql.zip
+    
+  ## Cleanup
+  - action: remove_path
+    path: ./tmp
